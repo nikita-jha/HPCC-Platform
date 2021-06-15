@@ -21,10 +21,11 @@
 # This script is normally invoked via GitHub actions, whenever a new tag is pushed
 
 BASE_VER=7.12                                   # The docker hub label for the platform-build-base image. Changes rarely.
-BUILD_TAG=$(git describe --exact-match --tags || true)  # The git tag for the images we are building
+BUILD_TAG=$(git describe --tags || true)  # The git tag for the images we are building
+# BUILD_TAG=$(git describe --exact-match --tags || true)  # The git tag for the images we are building
 BUILD_LABEL=${BUILD_TAG}                        # The docker hub label for all other components
 BUILD_USER=hpcc-systems                         # The github repo owner
-BUILD_TYPE=                                     # Set to Debug for a debug build, leave blank for default (RelWithDebInfo)
+BUILD_TYPE=                                    # Set to Debug for a debug build, leave blank for default (RelWithDebInfo)
 DOCKER_REPO=hpccsystems
 USE_CPPUNIT=1
 
@@ -41,7 +42,7 @@ fi
 if [[ -z ${BUILD_TAG} ]] ; then
   echo Current tag could not be located
   echo Perhaps you meant to run incr.sh ?
-  exit 2
+#  exit 2
 fi
 
 if [[ -z ${INPUT_BUILD_LABEL} ]]; then
@@ -81,7 +82,7 @@ build_image() {
        --build-arg USE_CPPUNIT=${USE_CPPUNIT} \
        --build-arg BUILD_THREADS=${BUILD_THREADS} \
        --build-arg GITHUB_TOKEN=${GITHUB_TOKEN} \
-       ${rest} ${name}/
+       ${DISABLE_CACHE} ${rest} ${name}/
   fi
   push_image $name $label
 }

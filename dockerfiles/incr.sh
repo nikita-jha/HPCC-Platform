@@ -22,7 +22,7 @@
 #
 # Pass in a get commit (that you previously built using this script) if you want to override the default calculation
 # of the base build
-
+# This is a test
 
 # NB: INPUT_* may be pre-set as environment variables.
 
@@ -63,6 +63,7 @@ INCR_DOCKER_REPO=${DOCKER_REPO}
 BUILD_TYPE=Debug
 [[ -n ${INPUT_BUILD_TYPE} ]] && BUILD_TYPE=${INPUT_BUILD_TYPE}
 BUILD_THREADS=$INPUT_BUILD_THREADS # If not set, picks up default based on nproc
+
 
 # BUILD_USER used when building from scatch with force option (-f)
 BUILD_USER=hpccsystems

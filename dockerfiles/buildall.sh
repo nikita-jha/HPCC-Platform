@@ -20,6 +20,7 @@
 # Build script to create and publish Docker containers corresponding to a GitHub tag
 # This script is normally invoked via GitHub actions, whenever a new tag is pushed 
 
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 pushd $SCRIPT_DIR 2>&1 > /dev/null
 
@@ -37,7 +38,11 @@ if [[ -n ${INPUT_USERNAME} ]] ; then
 fi
 
 BUILD_ML=    # all or ml,gnn,gnn-gpu
+DISABLE_CACHE= #empty
 [[ -n ${INPUT_BUILD_ML} ]] && BUILD_ML=${INPUT_BUILD_ML}
+[[ "${INPUT_DISABLE_CACHE}" == "1" ]] && DISABLE_CACHE="--no-cache"
+echo "DISABLE_CACHE: ${DISABLE_CACHE}"
+
 
 set -e
 
