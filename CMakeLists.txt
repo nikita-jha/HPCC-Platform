@@ -69,6 +69,7 @@
 
 project(hpccsystems-platform)
 
+# test comment
 # Stupid workaround. See https://gitlab.kitware.com/cmake/cmake/-/issues/21378
 # If cmake runs twice, cmake might not correctly set the compiler version variables
 unset ( ENV{CC} )
@@ -88,7 +89,7 @@ set(HPCC_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_MODULE_PATH "${HPCC_SOURCE_DIR}/cmake_modules/")
 
 include(${HPCC_SOURCE_DIR}/version.cmake)
-
+#Test Message
 ###
 ## Build Level
 ###
