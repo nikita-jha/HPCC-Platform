@@ -19,6 +19,6 @@ jobs:
           build_user: ${{ secrets.BUILD_USER }}
           docker_repo: ${{ secrets.DOCKER_REPO }}
           latest: 0   # this should only be set on the current minor branch
-          disable_cache: 0 #this should only be set to '1' if you want to disable the docker image cache
+          disable_cache: 1 #this should only be set to '1' if you want to disable the docker image cache
 
 
