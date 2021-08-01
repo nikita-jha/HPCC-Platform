@@ -7,14 +7,15 @@ import { WUResult } from "@hpcc-js/eclwatch";
 import nlsHPCC from "src/nlsHPCC";
 import { ESPBase } from "src/ESPBase";
 import { csvEncode } from "src/Utility";
+import { useFavorite } from "../hooks/favorite";
 import { HolyGrail } from "../layouts/HolyGrail";
-import { pushParams } from "../util/history";
 import { AutosizeHpccJSComponent } from "../layouts/HpccJSAdapter";
+import { pushParams } from "../util/history";
 import { ShortVerticalDivider } from "./Common";
 import { Fields } from "./forms/Fields";
 import { Filter } from "./forms/Filter";
 
-import "srcReact/components/DojoGrid.css";
+import "src-react-css/components/DojoGrid.css";
 
 function eclTypeTPL(type: string, isSet: boolean) {
     const prefix = isSet ? "SET OF " : "";
@@ -202,8 +203,9 @@ function doDownload(type: string, wuid: string, sequence?: number, logicalName?:
 }
 
 interface ResultProps {
-    wuid: string;
-    resultName: string;
+    wuid?: string;
+    resultName?: string;
+    logicalFile?: string;
     filter?: { [key: string]: any };
 }
 
@@ -212,6 +214,7 @@ const emptyFilter: { [key: string]: any } = {};
 export const Result: React.FunctionComponent<ResultProps> = ({
     wuid,
     resultName,
+    logicalFile,
     filter = emptyFilter
 }) => {
 
@@ -219,6 +222,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
         .baseUrl("")
         .wuid(wuid)
         .resultName(resultName)
+        .logicalFile(resultName)
         .pagination(true)
         .pageSize(50) as ResultWidget
     );
@@ -231,6 +235,7 @@ export const Result: React.FunctionComponent<ResultProps> = ({
     const [result] = React.useState<CommsResult>(resultTable.calcResult());
     const [FilterFields, setFilterFields] = React.useState<Fields>({});
     const [showFilter, setShowFilter] = React.useState(false);
+    const [isFavorite, addFavorite, removeFavorite] = useFavorite(window.location.hash);
 
     React.useEffect(() => {
         result?.fetchXMLSchema().then(() => {
@@ -290,7 +295,18 @@ export const Result: React.FunctionComponent<ResultProps> = ({
                     { key: "csv", text: nlsHPCC.CSV, onClick: () => doDownload("csv", wuid, result.Sequence) },
                 ]
             }
-        }
+        },
+        {
+            key: "star", iconProps: { iconName: isFavorite ? "FavoriteStarFill" : "FavoriteStar" },
+            onClick: () => {
+                if (isFavorite) {
+                    removeFavorite();
+                } else {
+                    addFavorite();
+                }
+            }
+        },
+
     ];
 
     return <HolyGrail

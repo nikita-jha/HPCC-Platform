@@ -67,7 +67,7 @@
 #
 #########################################################
 
-project(hpccsystems-platform)
+project(hpccsystems-platform LANGUAGES C CXX)
 
 # test comment
 # Stupid workaround. See https://gitlab.kitware.com/cmake/cmake/-/issues/21378
